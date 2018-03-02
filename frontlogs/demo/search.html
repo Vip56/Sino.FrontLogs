@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myapp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+    <script src="angular.js"></script>
+    <script src="search.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery.datetimepicker.css"/ >
+    <script src="jquery.datetimepicker.full.js"></script>
+    <script src="tm.pagination.js"></script>
+    <!-- bootstrap table -->
+    <link rel="stylesheet" href="public/bootstrap.min.css">
+    <link rel="stylesheet" href="public/bootstrap-table.min.css">
+    <link rel="stylesheet" href="public/bootstrap.min.js">
+    <link rel="stylesheet" href="public/bootstrap-table.min.js">
+    <link rel="stylesheet" href="public/bootstrap-table-zh-CN.min.js">
+    <style>
+            .page-list .pagination {float:left;}
+            .page-list .pagination span {cursor: pointer;}
+            .page-list .pagination .separate span{cursor: default; border-top:none;border-bottom:none;}
+            .page-list .pagination .separate span:hover {background: none;}
+            .page-list .page-total {float:left; margin: 25px 20px;}
+            .page-list .page-total input, .page-list .page-total select{height: 26px; border: 1px solid #ddd;}
+            .page-list .page-total input {width: 40px; padding-left:3px;}
+            .page-list .page-total select {width: 50px;}
+            .table th, .table td { 
+            text-align: center;
+            vertical-align: middle!important;
+            }
+            .table{
+                word-break: break-all; word-wrap: break-word;
+            }
+        </style>
+</head>
+<body ng-controller="myCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>前端日志查询</h4>
+        </div>
+    </div>
+    <div class="panel-body form-group" style="margin-bottom:0px;">
+      <form >
+        <label class="col-sm-1 control-label" style="top:5px;">日志级别:</label>
+        <div class="col-sm-2">
+            <select name="level" id="level" ng-model="level" class="form-control">
+                    <option value="0" ng-selected="0">全部</option>
+                    <option value="1">info</option>
+                    <option value="2">warn</option>
+                    <option value="3">error</option>
+            </select> 
+        </div>
+        <label class="col-sm-1 control-label" style="top:5px;">关键词:</label>
+        <div class="col-sm-2">
+                <input type="keyword" value="" name="keyword" id="keyword" ng-model="keyword" class="form-control"/>
+        </div>
+        <label class="col-sm-1 control-label" style="top:5px;">开始时间:</label>
+        <div class="col-sm-2">
+                <input id="startTime" type="text" name="startTime" ng-model="startTime" class="form-control"/> 
+        </div>
+        <label class="col-sm-1 control-label" style="top:5px;">结束时间:</label>
+        <div class="col-sm-2">
+                <input id="endTime" type="text" name="endTime" ng-model="endTime" class="form-control" />
+        </div>
+      
+    </div>
+    <div class="panel-body form-group" style="margin-bottom:0px;">
+        <label class="col-sm-1 control-label" style="top:5px;">项目:</label>
+        <div class="col-sm-3">    
+            <input type="radio" name="programe" value="ccp"  ng-model="programe" ng-selected="ccp"/> CCP  
+            <input type="radio" name="programe" value="csp"  ng-model="programe"/> CSP
+            <input type="radio" name="programe" value="tms" ng-model="programe" /> TMS
+        </div>
+        <div class="col-sm-3"> 
+      <button id="btn1" ng-click="submit()" type="button" class="btn btn-primary">查询</button>
+      <button id="btn2" ng-click="export()" type="button" class="btn btn-success">导出</button>
+      </div>
+    </div>
+    </form>
+
+    <label class="col-sm-12 control-label" style="top:5px;">
+        <p id="total" ng-show="total">共查询{{total}}个数据,当前页{{curcount}}个数据</p>
+    </label>
+             <table class="table table-hover table-responsive table-bordered table-condensed table-striped" >
+                <thead>
+                <tr>
+                    <th width="5%">索引</th>
+                    <th width="5%">级别</th>
+                    <th width="15%">时间</th>
+                    <th width="25%">页面URL</th>
+                    <th width="50%">日志</th>
+                </tr> 
+                </thead>
+                <tbody>
+                <tr  ng-if="show" ng-repeat="log in list">
+                    <td>{{$index+1}}</td>
+                    <td>{{log.level}}</td>
+                    <td>{{log.time}}</td>
+                    <td>{{log.url}}</td>
+                    <td style="text-align:left;">{{log.msgs}}</td>
+                </tr> 
+                </tbody>
+                <tfoot>
+                        <tr ng-if="!show" align="center">
+                                <td width="100%" colspan="5" >{{list}}</td>
+                        </tr>
+                </tfoot>
+          </table>
+          <div style="float:left;margin-left:60%;">
+                <tm-pagination conf="paginationConf"></tm-pagination>
+          </div>
+        
+         
+      <script>
+      $.datetimepicker.setLocale('ch');//设置中文 
+      $('#startTime,#endTime').datetimepicker({
+      lang:"zh", //语言选择中文 注：旧版本 新版方法：$.datetimepicker.setLocale('ch');
+      format:"Y-m-d H:i:s",      //格式化日期
+      timepicker:true,    //关闭时间选项
+      hours12: false,  //24h
+      yearEnd:2050,        //设置最大年份
+      todayButton:false,   //关闭选择今天按钮
+      validateOnBlur:false, //失去焦点时不校验时间
+      });
+      </script>
+  </body>
+</html>
