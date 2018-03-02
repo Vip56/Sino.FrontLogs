@@ -2,7 +2,7 @@
  * 数据库连接池模块
  * 向外提供 pool 对象
  */
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
 var pool = mysql.createPool({
     host: 'mysqls', //docker数据库服务器地址

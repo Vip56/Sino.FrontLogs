@@ -972,9 +972,9 @@ var logger = new Lajax({
     autoLogAjax: true,
     logAjaxFilter: function(url, method) {
         // 排除掉特定的接口请求
-        if (url === 'http://www.taobao.com' && method.toLowerCase() === 'get') {
-            return false;
-        }
+        if(url.indexOf('wilddogio.com')>-1){
+			return false;
+		}
         return true;
     },
     stylize: true,
