@@ -966,7 +966,7 @@
 
 
 var logger = new Lajax({
-    url: '/log',
+    url: 'http://frontlog.sowl.cn/log',
     autoLogError: true,
     autoLogRejection: true,
     autoLogAjax: true,
