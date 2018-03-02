@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  mysql:
+    image: registry.cn-hangzhou.aliyuncs.com/forntlogs/frontlogsql
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_ROOT_PASSWORD: 123456
+  app:
+    image: registry.cn-hangzhou.aliyuncs.com/forntlogs/forntlogs
+    depends_on:
+    - mysql
+    volumes:
+    - ./home/Service
+    ports:
+    - "8080:2017"
+    links:
+    - mysql:mysqls
