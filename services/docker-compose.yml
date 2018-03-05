@@ -18,5 +18,8 @@ services:
     - ./home/Service
     ports:
     - "8080:2017"
+    environment:
+    - KEYMETRICS_PUBLIC=m5ds5q2bd7pxghe
+    - KEYMETRICS_SECRET=qzi785bx94nsysk
     links:
     - mysql:mysqls
