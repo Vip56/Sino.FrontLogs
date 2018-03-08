@@ -1,6 +1,6 @@
 FROM mysql:5.6.37
 
-ENV TZ "Asia/Shangehai"
+ENV TZ "Asia/Shanghai"
 ENV MYSQL_ROOT_PASSWORD=123456
 ENV MYSQL_DATABASE=log
 

@@ -34,3 +34,13 @@ CREATE TABLE csp_log_total(
   msgs VARCHAR(400)
 );
 
+/**邮件报警配置表**/
+CREATE TABLE email_config(
+  pid INT PRIMARY KEY AUTO_INCREMENT,  
+  sender VARCHAR(100) ,
+  accepter VARCHAR(200) ,
+  smtp VARCHAR(200) ,
+  open tinyint(1) DEFAULT '1'
+);
+INSERT INTO email_config VALUES
+(null, '870188670@qq.com', '351230690@qq.com;','rcdbcfyxozrrbfdi','1');

@@ -29,13 +29,13 @@ app.controller('myCtrl',['$scope','$http',function ($scope,$http) {
      switch($scope.programe)
      {
       case "ccp":
-      window.location.href= '/getccplog/export?level='+ $scope.l+"&keyword="+ $scope.k+"&startTime="+ $scope.s+"&endTime="+ $scope.e;
+      window.location.href= '/api/getccplog/export?level='+ $scope.l+"&keyword="+ $scope.k+"&startTime="+ $scope.s+"&endTime="+ $scope.e;
       break;
       case "tms":
-      window.location.href= '/gettmslog/export?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e;
+      window.location.href= '/api/gettmslog/export?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e;
       break;
       case "csp":
-      window.location.href= '/getcsplog/export?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e;
+      window.location.href= '/api/getcsplog/export?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e;
       break;
     }
     };
@@ -51,7 +51,7 @@ app.controller('myCtrl',['$scope','$http',function ($scope,$http) {
     {
       case "ccp":
       $http
-      .get('/getccplog?level='+ $scope.l+"&keyword="+ $scope.k+"&startTime="+ $scope.s+"&endTime="+ $scope.e+"&skip="+ $scope.skip+"&count="+ $scope.count)
+      .get('/api/getccplog?level='+ $scope.l+"&keyword="+ $scope.k+"&startTime="+ $scope.s+"&endTime="+ $scope.e+"&skip="+ $scope.skip+"&count="+ $scope.count)
       .success(function (data) {
         //解析服务端返回的结果
         console.log(data.data);
@@ -64,7 +64,7 @@ app.controller('myCtrl',['$scope','$http',function ($scope,$http) {
       break;
       case "tms":
       $http
-      .get('/gettmslog?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e+"&skip="+$scope.skip+"&count="+$scope.count)
+      .get('/api/gettmslog?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e+"&skip="+$scope.skip+"&count="+$scope.count)
       .success(function (data) {
         //解析服务端返回的结果
         console.log(data.data);
@@ -77,7 +77,7 @@ app.controller('myCtrl',['$scope','$http',function ($scope,$http) {
       break;
       case "csp":
       $http
-      .get('/getcsplog?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e+"&skip="+$scope.skip+"&count="+$scope.count)
+      .get('/api/getcsplog?level='+$scope.l+"&keyword="+$scope.k+"&startTime="+$scope.s+"&endTime="+$scope.e+"&skip="+$scope.skip+"&count="+$scope.count)
       .success(function (data) {
         //解析服务端返回的结果
         console.log(data.data);
