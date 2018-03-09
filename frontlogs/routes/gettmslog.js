@@ -2,7 +2,7 @@ var express = require('express');
 const router = express.Router();
 const pool = require('../dbpool');
 router.get('/',function(req,res,next){
-      var level="";
+    var level="";
     switch(req.param('level'))
     {
         case "0":
@@ -27,7 +27,7 @@ router.get('/',function(req,res,next){
 
     var skip = req.param('skip') || '0';
     var count = req.param('count') || '0';
-
+ 
     //多条件查询拼接
    if(level){
     ll=' AND level=?';
@@ -66,6 +66,7 @@ var fenye=" limit "+skip+","+count;
     var starttime=new Date(startTime).getTime();
     var endtime=new Date(endTime).getTime();
     //if(!level & !startTime & !endTime & !keyword){
+
     if(false){
       return res.send({
         status:0,
@@ -84,18 +85,18 @@ var fenye=" limit "+skip+","+count;
         }else{
             pool.getConnection((err, conn)=> {
                 if(err){
-                    console.log('err',err);
+                    console.log('err1',err);
                     return ;
                 }
                 conn.query(
-                    "SELECT pid FROM tms_log_total WHERE 1=1"+str, //查总数
-                    strArray,
+                 "SELECT pid FROM tms_log_total WHERE 1=1"+str, //查总数
+                 strArray,
                   (err, result)=> {
                       if(err){
-                          console.log('err',err);
+                          console.log('err2',err);
                           return ;
                       }
-                        var totalCount=result.length;
+                      var totalCount=result.length;
                         conn.query(
                             "SELECT * FROM tms_log_total WHERE 1=1"+str+order+fenye, 
                             strArray,
@@ -127,9 +128,11 @@ var fenye=" limit "+skip+","+count;
                                 data: [],
                                 total:0,
                             }
+                           
                         })
                     }
                     })
+                   
                     conn.release();
                   })
               })
@@ -139,22 +142,24 @@ var fenye=" limit "+skip+","+count;
 
 // 导出日志列表
 router.get('/export',function(req,res,next){
-     var level="";
-    switch(req.param('level'))
-    {
-        case "0":
-        level="";
-        break;
-        case "1":
-        level="info";
-        break;
-        case "2":
-        level="warn";
-        break;
-        case "3":
-        level="error"
-        break;
-    }
+    // res.header('Access-Control-Allow-Origin', '*');
+    // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+   var level="";
+   switch(req.param('level'))
+   {
+    case "0":
+    level="";
+    break;
+    case "1":
+    level="info";
+    break;
+    case "2":
+    level="warn";
+    break;
+    case "3":
+    level="error"
+    break;
+   }
     var startTime = req.param('startTime') || '';
     var endTime = req.param('endTime') || '';
     var keyword = req.param('keyword').replace(/(^\s*)|(\s*$)/g, '') || '';
@@ -219,6 +224,7 @@ router.get('/export',function(req,res,next){
                 }
                 var excel=(new Date().getTime()+".xlsx").toString();
                     conn.query(
+                            // "select * FROM tms_log_total WHERE 1=1"+str+order+ " into outfile "+"'./tmslog"+excel+"'", 
                             "select * FROM tms_log_total WHERE 1=1"+str+order, 
                             strArray,
                             (err, result)=> {
@@ -227,6 +233,7 @@ router.get('/export',function(req,res,next){
                                     return ;
                                 }
                           res.xls('tms'+excel, result);
+                        //  res.download("./tmslog"+excel);
                     })
                     conn.release();
               })
