@@ -1,7 +1,6 @@
 var express = require('express');
 const router = express.Router();
 const pool = require('../dbpool');
-const json2xls = require('json2xls');//导出excel
 router.get('/',function(req,res,next){
     var level="";
     switch(req.param('level'))
@@ -28,8 +27,7 @@ router.get('/',function(req,res,next){
 
     var skip = req.param('skip') || '0';
     var count = req.param('count') || '0';
-    // console.log(req.param('level'))
-    // console.log("level",level);
+ 
     //多条件查询拼接
    if(level){
     ll=' AND level=?';
