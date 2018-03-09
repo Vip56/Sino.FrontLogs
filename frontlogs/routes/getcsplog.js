@@ -69,16 +69,17 @@ var fenye=" limit "+skip+","+count;
     if(false){
       return res.send({
         status:0,
-        info:'提交的字段不全'
+        errorMessage:'提交的字段不全',
+        errorCode:10001,
+        success:false,
       });
     }else{
         if(endtime && starttime && endtime<starttime){
             res.send({
                 status:0,
-                data:{
-                    data:'时间节点错误',
-                    total:0
-                }
+                errorMessage:'时间节点错误',
+                errorCode:10002,
+                success:false,
             })
         }else{
             pool.getConnection((err, conn)=> {
@@ -87,7 +88,7 @@ var fenye=" limit "+skip+","+count;
                     return ;
                 }
                 conn.query(
-                 "SELECT pid FROM csp_log_total", //查总数
+                 "SELECT pid FROM csp_log_total WHERE 1=1"+str, //查总数
                   (err, result)=> {
                       if(err){
                           console.log('err',err);
@@ -106,6 +107,9 @@ var fenye=" limit "+skip+","+count;
                                 if(result.length>0){ //条件查询 ，找到数据
                                 res.send({
                                     status:1,
+                                    errorMessage:null,
+                                    errorCode:null,
+                                    success:true,
                                     data:{
                                         data:result,
                                         total:totalCount,
@@ -116,11 +120,13 @@ var fenye=" limit "+skip+","+count;
                       }else {  
                         res.send({
                             status:0,
+                            errorMessage:null,
+                            errorCode:null,
+                            success:true,
                             data:{
-                                data: '未查询到数据',
+                                data: [],
                                 total:0,
                             }
-                           
                         })
                     }
                     })
@@ -193,14 +199,17 @@ router.get('/export',function(req,res,next){
     if(false){
       return res.send({
         status:0,
-        info:'提交的字段不全'
+        errorMessage:'提交的字段不全',
+        errorCode:10001,
+        success:false,
       });
     }else{
         if(endtime && starttime && endtime<starttime){
             res.send({
                 status:0,
-                total:0,
-                data:'时间节点错误'
+                errorMessage:'时间节点错误',
+                errorCode:10002,
+                success:false,
             })
         }else{
             pool.getConnection((err, conn)=> {
@@ -208,19 +217,9 @@ router.get('/export',function(req,res,next){
                     console.log('err',err);
                     return ;
                 }
-                conn.query(
-                    "SELECT pid FROM ccp_log_total WHERE 1=1"+str, //查总数
-                    strArray,
-                  (err, result)=> {
-                      if(err){
-                          console.log('err',err);
-                          return ;
-                      }
-                    if(result.length>0){ //条件查询 ，找到数据
-                        var totalCount=result.length;
-                        var excel=(new Date().getTime()+".xlsx").toString();
-                        conn.query(
-                            // "select * FROM csp_log_total WHERE 1=1"+str+order+ " into outfile "+"'d:/csplog"+excel+"'", 
+                var excel=(new Date().getTime()+".xlsx").toString();
+                    conn.query(
+                            // "select * FROM csp_log_total WHERE 1=1"+str+order+ " into outfile "+"'./csplog"+excel+"'", 
                             "select * FROM csp_log_total WHERE 1=1"+str+order, 
                             strArray,
                             (err, result)=> {
@@ -228,21 +227,10 @@ router.get('/export',function(req,res,next){
                                     console.log('err',err);
                                     return ;
                                 }
-                                res.xls('csp'+excel, result);
-                                // res.download("d:/ccplog"+excel);
-                     
+                          res.xls('csp'+excel, result);
+                        //  res.download("./csplog"+excel);
                     })
-                    }else {  
-                        res.send({
-                            status:0,
-                            data:{
-                                data: '未查询到数据',
-                                total:0,
-                            }
-                        })
-                    }
                     conn.release();
-                  })
               })
         }
     }

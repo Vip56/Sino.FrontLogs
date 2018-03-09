@@ -22,7 +22,8 @@ router.get('/edit',function(req,res,next){
                   }
                      if(result.affectedRows>0){ //条件查询 ，找到数据
                             res.send({
-                                status:1,
+                                errorMessage:null,
+                                errorCode:null,
                                 success:true,
                                 data:{
                                     sender:sender,
@@ -34,12 +35,9 @@ router.get('/edit',function(req,res,next){
                     )
                 }else {  
                     res.send({
-                        status:0,
-                        success:false,
-                        data:{
-                            data: '设置失败'
-                        }
-                       
+                        errorMessage:'设置失败',
+                        errorCode:null,
+                        success:true,
                     })
                 }
                 console.log('语句影响行数：'+result.affectedRows);
@@ -48,9 +46,9 @@ router.get('/edit',function(req,res,next){
           })
     }else{
         res.send({
-            status:0,
-            success:false,
-            data:'入参错误'
+            errorMessage:'入参错误',
+            errorCode:null,
+            success:true,
         })
         };
 }); 
@@ -69,7 +67,8 @@ router.get('/view',function(req,res,next){
             }
                if(result.length>0){ //条件查询 ，找到数据
                       res.send({
-                          status:1,
+                          errorMessage:null,
+                          errorCode:null,
                           success:true,
                           data:{
                             data:result
@@ -78,12 +77,9 @@ router.get('/view',function(req,res,next){
               )
           }else {  
               res.send({
-                  status:0,
-                  success:false,
-                  data:{
-                      data: '查询失败'
-                  }
-                 
+                errorMessage:'查询失败',
+                errorCode:null,
+                success:true,
               })
           }
           })
